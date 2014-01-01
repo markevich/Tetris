@@ -38,15 +38,30 @@ public class BrickBoard : MonoBehaviour
     }
     SpawnNewBrick();
 	}
+
   void SpawnNewBrick(){
-    var column = Random.Range(0, board.GetLength(0) - 1);
+    var column = Random.Range(0, board.GetLength(0));
     for (int i=0; i < 4; i++)
       board [column, i].renderer.enabled = true;
   }
+
   bool HasCollisions(){
+    return(FloorCollision() || MainBoardCollision());
+  }
+
+  bool FloorCollision(){
     for(int i = 0; i< board.GetLength(0); i++)
       if(board[i, board.GetLength(1) - 1].renderer.enabled)
         return true;
+    return false;
+  }
+
+  bool MainBoardCollision(){
+    var mainBoard = GameObject.Find("MainBoard").GetComponent<MainBoard>();
+    for (int i = 0; i < board.GetLength(0); i++)
+      for (int j = 0; j < board.GetLength(1) - 1; j++)
+        if(board[i, j].renderer.enabled && mainBoard.EnabledAt(i, j + 1))
+          return true;
     return false;
   }
 

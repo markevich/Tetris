@@ -21,4 +21,8 @@ public class MainBoard : MonoBehaviour {
   public void EnableBrick(int i, int j){
     board[i, j].renderer.enabled = true;
   }
+
+  public bool EnabledAt(int i, int j){
+    return board[i, j].renderer.enabled;
+  }
 }
