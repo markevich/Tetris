@@ -15,7 +15,7 @@ public class BrickBoard : MonoBehaviour
 	{
 		board = new int[10, 20];
 		for (int i=0; i < 4; i++)
-				board [5, i] = 1;
+		  board [5, i] = 1;
 		needReupdate = true;
 	}
 
