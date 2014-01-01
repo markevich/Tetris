@@ -41,8 +41,17 @@ public class BrickBoard : MonoBehaviour
 
   void SpawnNewBrick(){
     var column = Random.Range(0, board.GetLength(0));
-    for (int i=0; i < 4; i++)
-      board [column, i].renderer.enabled = true;
+    var randFigure = Random.Range(0, 2);
+    if(randFigure == 0)
+      for (int j=0; j < 4; j++)
+        board [column, j].renderer.enabled = true;
+    else{
+      column = Mathf.Clamp(column, 1, board.GetLength(0) - 2);
+      board[column, 0].renderer.enabled = true;
+      board[column - 1, 1].renderer.enabled = true;
+      board[column, 1].renderer.enabled = true;
+      board[column + 1, 1].renderer.enabled = true;
+    }
   }
 
   bool HasCollisions(){
