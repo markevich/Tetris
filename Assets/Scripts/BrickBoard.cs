@@ -8,6 +8,15 @@ public class BrickBoard : MonoBehaviour
 
 	public void Fall ()
 	{
+    for (int i = 0; i < board.GetLength(0); i++) {
+      for (int j = board.GetLength(1) - 1; j > 0; j--) {
+        board[i, j] = board[i, j - 1];
+      }
+    }
+
+    for(int i = 0; i< board.GetLength(0); i++)
+      board[i, 0] = 0;
+
 		needReupdate = true;
 	}
 	// Use this for initialization
@@ -25,13 +34,19 @@ public class BrickBoard : MonoBehaviour
 		if (!needReupdate)
 			return;
 
+    getMainBoard().disableAllBricks();
+
 		for (int i = 0; i < board.GetLength(0); i++)
 			for (int j = 0; j < board.GetLength(1); j++) {
 				if (board [i, j] > 0) {
-					GameObject.Find("MainBoard").GetComponent<MainBoard>().enableBrick(i, j);
+					getMainBoard().enableBrick(i, j);
 				}
 			}
 
 		needReupdate = false;
 	}
+
+  MainBoard getMainBoard(){
+    return GameObject.Find("MainBoard").GetComponent<MainBoard>();
+  }
 }
