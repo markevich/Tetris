@@ -19,6 +19,6 @@ public class Turn : MonoBehaviour {
 	}
 
 	void Tick(){
-		GameObject.FindGameObjectWithTag("CurrentBrickBoard").GetComponent<BrickBoard>().Fall();
+		GameObject.Find("BrickBoard").GetComponent<BrickBoard>().Fall();
 	}
 }
