@@ -5,25 +5,36 @@ public class BrickBoard : MonoBehaviour
 {
   private GameObject[,] board;
 
-	public void Fall ()
-	{
-    if(HasCollisions()){
-      MergeWithMainBoard();
-      Clear();
-      SpawnNewBrick();
+  public void MoveDown()
+  {
+    if (HasBottomCollisions ()) {
+      MergeWithMainBoard ();
+      Clear ();
+      SpawnNewBrick ();
     }
-    else{
-      for (int i = 0; i < board.GetLength(0); i++) {
-        for (int j = board.GetLength(1) - 1; j > 0; j--) {
-          board[i, j].renderer.enabled = board[i, j - 1].renderer.enabled;
-        }
-      }
+    else {
+      for (int i = 0; i < board.GetLength (0); i++)
+        for (int j = board.GetLength (1) - 1; j > 0; j--)
+          board [i, j].renderer.enabled = board [i, j - 1].renderer.enabled;
 
-      for(int i = 0; i< board.GetLength(0); i++)
-        board[i, 0].renderer.enabled = false;
+      for (int i = 0; i < board.GetLength (0); i++)
+        board [i, 0].renderer.enabled = false;
     }
-	}
-	// Use this for initialization
+  }
+
+  public void MoveLeft(){
+    if(HasLeftCollisions())
+      return;
+    for (int i = 0; i < board.GetLength(0) -1 ; i++)
+      for (int j = 0; j < board.GetLength(1); j++)
+        board[i, j].renderer.enabled = board[i + 1, j].renderer.enabled;
+
+    for (int j = 0; j < board.GetLength(1); j++)
+      board [board.GetLength(0) -1, j].renderer.enabled = false;
+  }
+  public void MoveRight(){
+  }
+
 	void Start ()
 	{
     board = new GameObject[10, 20];
@@ -54,8 +65,32 @@ public class BrickBoard : MonoBehaviour
     }
   }
 
-  bool HasCollisions(){
-    return(FloorCollision() || MainBoardCollision());
+  bool HasBottomCollisions(){
+    return(FloorCollision() || MainBoardBottomCollision());
+  }
+
+  bool HasLeftCollisions(){
+    return(LeftBoardCollision() || MainBoardLeftCollision());
+  }
+
+  bool LeftBoardCollision ()
+  {
+    for (int j = 0; j < board.GetLength(1); j++)
+      if(board[0, j].renderer.enabled)
+        return true;
+
+    return false;
+  }
+
+  bool MainBoardLeftCollision ()
+  {
+    var mainBoard = GameObject.Find("MainBoard").GetComponent<MainBoard>();
+    for (int i = 1; i < board.GetLength(0); i++)
+      for (int j = 0; j < board.GetLength(1); j++)
+        if(board[i, j].renderer.enabled && mainBoard.EnabledAt(i - 1, j))
+           return true;
+    
+    return false;
   }
 
   bool FloorCollision(){
@@ -65,7 +100,7 @@ public class BrickBoard : MonoBehaviour
     return false;
   }
 
-  bool MainBoardCollision(){
+  bool MainBoardBottomCollision(){
     var mainBoard = GameObject.Find("MainBoard").GetComponent<MainBoard>();
     for (int i = 0; i < board.GetLength(0); i++)
       for (int j = 0; j < board.GetLength(1) - 1; j++)

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Turn : MonoBehaviour {
-	const float turnTime = 0.3f;
+	const float turnTime = 1f;
 	private float pastTime;
 	// Use this for initialization
 	void Start () {
@@ -19,6 +19,6 @@ public class Turn : MonoBehaviour {
 	}
 
 	void Tick(){
-		GameObject.Find("BrickBoard").GetComponent<BrickBoard>().Fall();
+		GameObject.Find("BrickBoard").GetComponent<BrickBoard>().MoveDown();
 	}
 }
