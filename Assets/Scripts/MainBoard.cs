@@ -4,16 +4,6 @@ using System.Collections;
 public class MainBoard : MonoBehaviour {
 	private GameObject[,] board;
 
-	public void enableBrick(int i, int j){
-		board[i, j].renderer.enabled = true;
-	}
-
-  public void disableAllBricks(){
-    foreach (var brick in board) {
-      brick.renderer.enabled = false;
-    }
-  }
-
 	// Use this for initialization
 	void Start () {
 		board = new GameObject[10, 20];
@@ -27,10 +17,8 @@ public class MainBoard : MonoBehaviour {
 				board[i, j] = clone;
 			}
 	}
-	
- 
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+  public void EnableBrick(int i, int j){
+    board[i, j].renderer.enabled = true;
+  }
 }
