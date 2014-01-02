@@ -25,4 +25,31 @@ public class MainBoard : MonoBehaviour {
   public bool EnabledAt(int i, int j){
     return board[i, j].renderer.enabled;
   }
+
+  public void ClearFilledLines(){
+    for (int j = board.GetLength(1) - 1; j >= 0; j--) {
+      int filledCount = 0;
+      for (int i = 0; i < board.GetLength(0); i++) {
+        if(board[i, j].renderer.enabled)
+          filledCount ++;
+      }
+      if(filledCount == board.GetLength(0)){
+        for (int i = 0; i < board.GetLength(0); i++) {
+          board[i, j].renderer.enabled = false;
+        }
+        MoveDown();
+        j++;
+      }
+    }
+  }
+
+
+  public void MoveDown(){
+    for (int i = 0; i < board.GetLength (0); i++)
+      for (int j = board.GetLength (1) - 1; j > 0; j--)
+        board [i, j].renderer.enabled = board [i, j - 1].renderer.enabled;
+    
+    for (int i = 0; i < board.GetLength (0); i++)
+      board [i, 0].renderer.enabled = false;
+  }
 }

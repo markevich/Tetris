@@ -2,27 +2,27 @@
 using System.Collections;
 
 public class Inputs : MonoBehaviour {
-  bool active;
+  bool activeNow;
 	void Start () {
-    active = false;
+    activeNow = false;
 	}
 	
 	void Update () {
     var axis = Input.GetAxisRaw ("Horizontal");
     switch ((int)axis) {
     case  0:
-        active = false;
+        activeNow = false;
         break;
     case -1:
-      if(!active){
+      if(!activeNow){
         GameObject.Find ("BrickBoard").GetComponent<BrickBoard> ().MoveLeft ();
-        active = true;
+        activeNow = true;
       }
       break;
     case 1:
-      if(!active){
+      if(!activeNow){
         GameObject.Find ("BrickBoard").GetComponent<BrickBoard> ().MoveRight ();
-        active = true;
+        activeNow = true;
       }
       break;
     }

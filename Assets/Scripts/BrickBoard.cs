@@ -33,6 +33,15 @@ public class BrickBoard : MonoBehaviour
       board [board.GetLength(0) -1, j].renderer.enabled = false;
   }
   public void MoveRight(){
+    if(HasRightCollisions())
+      return;
+
+    for (int i = board.GetLength(0) - 1; i > 0; i--)
+      for (int j = 0; j < board.GetLength(1); j++)
+        board[i, j].renderer.enabled = board[i - 1, j].renderer.enabled;
+    
+    for (int j = 0; j < board.GetLength(1); j++)
+      board [0, j].renderer.enabled = false;
   }
 
 	void Start ()
@@ -71,6 +80,28 @@ public class BrickBoard : MonoBehaviour
 
   bool HasLeftCollisions(){
     return(LeftBoardCollision() || MainBoardLeftCollision());
+  }
+
+  bool HasRightCollisions(){
+    return(RightBoardCollision() || MainBoardRightCollision());
+  }
+
+  bool RightBoardCollision(){
+    for(int j = 0; j< board.GetLength(1); j++)
+      if(board[board.GetLength(0) - 1, j].renderer.enabled)
+        return true;
+
+    return false;
+  }
+
+  bool MainBoardRightCollision(){
+    var mainBoard = GameObject.Find("MainBoard").GetComponent<MainBoard>();
+    for (int i = 0; i < board.GetLength(0) - 1; i++)
+      for (int j = 0; j < board.GetLength(1); j++)
+        if(board[i, j].renderer.enabled && mainBoard.EnabledAt(i + 1, j))
+          return true;
+    
+    return false;
   }
 
   bool LeftBoardCollision ()
@@ -123,5 +154,6 @@ public class BrickBoard : MonoBehaviour
           mainBoard.EnableBrick(i, j);
       }
     }
+    mainBoard.ClearFilledLines();
   }
 }

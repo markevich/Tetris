@@ -2,14 +2,12 @@
 using System.Collections;
 
 public class Turn : MonoBehaviour {
-	const float turnTime = 1f;
+	const float turnTime = 0.2f;
 	private float pastTime;
-	// Use this for initialization
 	void Start () {
 		pastTime = 0;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		pastTime += Time.deltaTime;
 		if(pastTime > turnTime){
