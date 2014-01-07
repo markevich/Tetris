@@ -1,12 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BrickBoard : MonoBehaviour
 {
   private GameObject[,] board;
 
-  public void MoveDown()
-  {
+  public void Rotate(){
+    var rotatedCopy = GetRotatedCopy();
+  }
+
+  private bool[,] GetRotatedCopy(){
+    var parameters = GetBoundedBoxParameters();
+    return new bool[4,4];
+  }
+
+  private Dictionary<string, int> GetBoundedBoxParameters(){
+    int left = board.GetLength(0);
+    int top = board.GetLength(1);
+    int right = 0;
+    int bottom = 0;
+    for (int i = 0; i < board.GetLength(0); i++) {
+      for (int j = 0; j < board.GetLength(1); j++) {
+        if(board[i, j].renderer.enabled){
+          if(j < top)
+            top = j;
+          if(i < left)
+            left = i;
+          if(i > right)
+            right = i;
+          if(j > bottom)
+            bottom = j;
+        }
+      }
+    }
+    if((right - left) > (bottom - top))
+      top++;
+    else
+      left--;
+
+    return new Dictionary<string, int>(){
+      {"left", left}, {"top", top}, {"right", right}, {"bottom", bottom}
+    };
+  }
+  public void MoveDown(){
     if (HasBottomCollisions ()) {
       MergeWithMainBoard ();
       Clear ();

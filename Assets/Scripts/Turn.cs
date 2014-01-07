@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Turn : MonoBehaviour {
-	const float turnTime = 0.2f;
+	const float turnTime = 0.5f;
 	private float pastTime;
 	void Start () {
 		pastTime = 0;

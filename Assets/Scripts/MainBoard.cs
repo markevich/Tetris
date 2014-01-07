@@ -37,16 +37,16 @@ public class MainBoard : MonoBehaviour {
         for (int i = 0; i < board.GetLength(0); i++) {
           board[i, j].renderer.enabled = false;
         }
-        MoveDown();
+        MoveDownTo(j);
         j++;
       }
     }
   }
 
 
-  public void MoveDown(){
+  public void MoveDownTo(int moveTo){
     for (int i = 0; i < board.GetLength (0); i++)
-      for (int j = board.GetLength (1) - 1; j > 0; j--)
+      for (int j = moveTo; j > 0; j--)
         board [i, j].renderer.enabled = board [i, j - 1].renderer.enabled;
     
     for (int i = 0; i < board.GetLength (0); i++)
